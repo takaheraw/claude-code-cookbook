@@ -56,11 +56,7 @@ Claude Code をもっと便利に使うための設定集です。
 | `/task` | 専用エージェントを起動して、複雑な検索・調査・分析タスクを自律的に実行する。 |
 | `/tech-debt` | プロジェクトの技術的負債を分析し、優先順位付けされた改善計画を作成する。 |
 | `/ultrathink` | 複雑な課題や重要な決定に対して、段階的で構造化された思考プロセスを実行する。 |
-| `/update-dart-doc` | Dart ファイルの DartDoc コメントを体系的に管理し、高品質な日本語ドキュメントを維持する。 |
-| `/update-doc-string` | 複数言語対応のドキュメント文字列を統一的に管理・更新する。 |
-| `/update-flutter-deps` | Flutter プロジェクトの依存関係を安全に更新する。 |
-| `/update-node-deps` | Node.js プロジェクトの依存関係を安全に更新する。 |
-| `/update-rust-deps` | Rust プロジェクトの依存関係を安全に更新する。 |
+| `/update-yard-doc` | **⭐️ NEW** Ruby/Rails ファイルの YARD ドキュメントを体系的に管理し、高品質な日本語ドキュメントを維持する。 |
 
 ### Roles（役割設定）
 
@@ -76,6 +72,7 @@ Claude Code をもっと便利に使うための設定集です。
 | `/role mobile` | モバイルアプリ開発の専門家として、iOS/Android のベストプラクティスに基づいた回答をする。 |
 | `/role performance` | パフォーマンス最適化の専門家として、速度やメモリ使用量の改善を提案する。 |
 | `/role qa` | QA エンジニアとして、テスト計画や品質保証の観点からレビューする。 |
+| `/role rails` | **⭐️ NEW** Ruby on Rails 専門家として、Rails Way ・ MVC 設計・ ActiveRecord 最適化・ Rails Security に基づいた分析を行う。 |
 | `/role reviewer` | コードレビュアーとして、可読性や保守性の観点からコードを評価する。 |
 | `/role security` | セキュリティ専門家として、脆弱性やセキュリティリスクを指摘する。 |
 
@@ -90,9 +87,16 @@ Claude Code をもっと便利に使うための設定集です。
 /role security --agent
 「プロジェクト全体のセキュリティ監査を実行」
 
+# Rails 専門分析（新機能）
+/role rails
+「この Rails アプリの MVC 設計と Rails Way の準拠度をチェック」
+
+/smart-review app/models/
+「Rails Model の自動検出と Fat Model 分析」
+
 # 複数ロールの並列分析
-/multi-role security,performance --agent
-「システム全体のセキュリティとパフォーマンスを包括的に分析」
+/multi-role rails,security --agent
+「Rails 特有のセキュリティ問題を包括的に分析」
 ```
 
 ### Hooks（自動化スクリプト）
@@ -104,7 +108,7 @@ Claude Code をもっと便利に使うための設定集です。
 | `deny-check.sh` | `PreToolUse` | `rm -rf /` のような危険なコマンドの実行を未然に防ぐ。 |
 | `check-ai-commit.sh` | `PreToolUse` | `git commit` でコミットメッセージに AI の署名が含まれている場合にエラーを出す。 |
 | `ja-space-format.sh` | `PostToolUse` | ファイル保存時に、日本語と英数字の間のスペースを自動で整形する。 |
-| `auto-comment.sh` | `PostToolUse` | 新規ファイル作成時や大幅な編集時に、docstring や API ドキュメントの追加を促す。 |
+| `auto-comment.sh` | `PostToolUse` | 新規ファイル作成時や大幅な編集時に、docstring や API ドキュメントの追加を促す。Ruby/Rails ファイルでは YARD コメント形式を推奨。 |
 | `notify-waiting` | `Notification` | Claude がユーザーの確認を待っている時に、macOS の通知センターでお知らせする。 |
 | `check-continue.sh` | `Stop` | タスク完了時に、継続可能なタスクがないか確認する。 |
 | `(osascript)` | `Stop` | 全タスク完了時に、macOS の通知センターで完了を知らせる。 |
@@ -157,6 +161,46 @@ flowchart TB
 
     %%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#e0f2fe', 'primaryTextColor':'#0c4a6e', 'primaryBorderColor':'#0369a1', 'lineColor':'#64748b', 'secondaryColor':'#f0f9ff', 'background':'#ffffff', 'mainBkg':'#ffffff', 'fontSize': '14px'}}}%%
 ```
+
+---
+
+## 最新機能ハイライト
+
+### 🚂 Ruby on Rails 対応強化
+
+**新規追加された Rails 専門機能**：
+
+- **`/role rails`**: Rails Way ・ MVC 設計・ ActiveRecord 最適化に特化した専門分析
+- **`/update-yard-doc`**: YARD 形式のドキュメント自動生成・管理
+- **Rails 自動検出**: `/smart-review`が Rails プロジェクトを自動識別し、適切な分析を実行
+- **自動化スクリプト**: Ruby/Rails ファイル専用のドキュメント促進機能
+
+#### Rails 開発での活用例
+
+```bash
+# Rails 全体の品質監査
+/role rails --agent
+「プロジェクト全体の Rails Way 準拠度と技術的負債を分析」
+
+# MVC 責務分離の評価
+/smart-review app/
+「Fat Controller/Model の検出と Service Object 導入提案」
+
+# N+1 クエリの検出と最適化
+/multi-role rails,performance
+「ActiveRecord クエリの最適化とパフォーマンス改善」
+
+# Rails 特有のセキュリティチェック  
+/multi-role rails,security
+「Strong Parameters と CSRF 対策、Rails Security Guide 準拠確認」
+```
+
+### 📊 統計情報
+
+- **コマンド数**: 34 個（Rails 対応含む）
+- **専門ロール数**: 9 個（Rails 専門家を追加）
+- **MCP 統合**: Context7、GitHub、DeepWiki、Sequential Thinking
+- **自動化フック**: 7 種類の開発支援機能
 
 ---
 
