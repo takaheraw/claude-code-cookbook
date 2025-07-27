@@ -20,6 +20,7 @@
 - `performance` : パフォーマンス最適化専門家（Core Web Vitals ・ RAIL モデル・段階的最適化・ ROI 分析）
 - `analyzer` : 根本原因分析専門家（5 Whys ・システム思考・仮説駆動・認知バイアス対策）
 - `frontend` : フロントエンド・ UI/UX 専門家（WCAG 2.1 ・デザインシステム・ユーザー中心設計）
+- `rails` : **Ruby on Rails 専門家**（Rails Way・MVC設計・ActiveRecord最適化・Rails Security）
 
 #### 開発支援ロール
 
@@ -31,6 +32,14 @@
 ### 基本例
 
 ```bash
+# Rails専門モードに切り替え（通常）
+/role rails
+「このRailsアプリケーションを包括的に評価して」
+
+# Rails専門をサブエージェントで実行（大規模分析）
+/role rails --agent
+「Railsプロジェクト全体の品質監査を実行して」
+
 # セキュリティ監査モードに切り替え（通常）
 /role security
 「このプロジェクトのセキュリティ脆弱性をチェックして」
@@ -67,6 +76,15 @@
 ### Claude との連携
 
 ```bash
+# Rails特化の分析
+/role rails
+cat app/models/user.rb
+「このモデルをRails Wayの観点から評価して」
+
+# Rails + セキュリティの複合分析
+/role rails
+「Rails Security Guideに基づいてこのControllerを評価して」
+
 # セキュリティ特化の分析
 /role security
 cat app.js
@@ -85,6 +103,17 @@ ls -la src/
 ### 詳細例
 
 ```bash
+# Rails専門ロールでの段階的分析
+/role rails
+「まずMVCアーキテクチャの観点でチェック」
+find app/ -name "*.rb" | head -10
+
+「次にActiveRecordの使用状況を評価」
+grep -r "has_many\|belongs_to" app/models/
+
+「最後にRails規約への準拠度を確認」
+bundle exec rubocop
+
 # 複数ロールでの分析
 /role security
 「まずセキュリティ観点でチェック」
@@ -93,17 +122,17 @@ git diff HEAD~1
 /role reviewer
 「次に一般的なコード品質をレビュー」
 
-/role architect
-「最後にアーキテクチャの観点から評価」
+/role rails
+「最後にRails特有の観点から評価」
 
 # ロール固有の出力形式
-/role security
-セキュリティ分析結果
-━━━━━━━━━━━━━━━━━━━━━
-脆弱性: SQL インジェクション
-深刻度: High
-該当箇所: db.js:42
-修正案: パラメータ化クエリを使用
+/role rails
+Rails分析結果
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MVC準拠度: 85%
+ActiveRecord最適化: N+1クエリ 3件検出
+Rails Way準拠: Grade B+
+セキュリティ: Strong Parameters 適用済み
 ```
 
 ### Evidence-First 統合機能
@@ -121,6 +150,42 @@ git diff HEAD~1
 - **議論特性**: ロール固有の専門的議論スタンス
 
 ### 専門分析ロールの詳細
+
+#### rails（Ruby on Rails 専門家）⭐️ **NEW**
+
+**Evidence-First Rails開発**
+
+- Rails Guides・Rails Security Guide・Rails Performance Guide 準拠
+- Rails Way（Convention over Configuration）原則の徹底適用
+- ActiveRecord Best Practices・N+1クエリ最適化
+- MVC + Service Object・Concern による責務分離評価
+- Rails特有のセキュリティパターン（Strong Parameters・CSRF・SQL Injection対策）
+
+**Rails特有の専門領域**
+
+- **MVC Architecture**: Controller肥大化・Fat Model 問題の解決
+- **ActiveRecord**: 関連・スコープ・バリデーションの最適化
+- **Rails Security**: Brakeman・Rails Security Guide準拠
+- **Performance**: N+1クエリ・キャッシュ戦略・バックグラウンドジョブ
+- **Rails Way**: 規約準拠・Gem選択・Rails Update戦略
+
+**専門的報告形式**
+
+```
+Evidence-First Rails分析
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Rails Way準拠度: XX% / Rails Guides準拠: XX%
+N+1クエリ検出: XX件 / Fat Controller/Model: XX件
+Security Guide準拠: XX% / Brakeman警告: XX件
+Performance Grade: A-F / Test Coverage: XX%
+```
+
+**Rails議論特性**
+
+- **スタンス**: Rails Way重視・規約優先・実用性重視・開発者体験優先
+- **論拠**: Rails Guides・DHH思想・Rails Core Team方針・実績あるGem
+- **強み**: Rails生態系の深い理解・Rails特有の問題解決・開発効率化
+- **注意**: Rails以外への適用限界・過度な規約依存・新技術への保守性
 
 #### security（セキュリティ監査専門家）
 
@@ -214,6 +279,13 @@ Evidence-First 根本原因分析
 
 各ロールは専門分野に応じた独自の議論スタンス・論拠ソース・強みを持ちます。
 
+#### rails ロールの議論特性 ⭐️ **NEW**
+
+- **スタンス**: Rails Way重視・規約優先・実用性重視・開発者体験優先
+- **論拠**: Rails Guides・DHH思想・Rails Core Team方針・実績あるGem・コミュニティベストプラクティス
+- **強み**: Rails生態系の深い理解・Rails特有の問題解決・開発効率化・保守性向上
+- **注意**: Rails以外への適用限界・過度な規約依存・新技術への保守性・パフォーマンストレードオフ
+
 #### security ロールの議論特性
 
 - **スタンス**: 保守的アプローチ・リスク最小化優先・最悪ケース想定
@@ -246,6 +318,13 @@ Evidence-First 根本原因分析
 
 異なる議論特性を持つロールの組み合わせにより、バランスの取れた分析が可能：
 
+#### Rails特化の協調パターン ⭐️ **NEW**
+
+- **rails + security**: Rails特有のセキュリティ脆弱性とベストプラクティス
+- **rails + performance**: Rails特有のパフォーマンス問題（N+1クエリ等）
+- **rails + reviewer**: Rails規約に準拠したコードレビュー
+- **rails + qa**: RSpec・Rails特有のテスト戦略
+
 #### 典型的な協調パターン
 
 - **security + frontend**: セキュリティとユーザビリティのバランス
@@ -265,13 +344,57 @@ Evidence-First 根本原因分析
 - `/multi-role <ロール 1>,<ロール 2>` : 複数ロール同時分析
 - `/role-debate <ロール 1>,<ロール 2>` : ロール間議論
 
-### 使用例
+### Rails特化の使用例 ⭐️ **NEW**
+
+#### Rails専門分析
+
+```bash
+# Rails全体評価
+/role rails
+find app/ -name "*.rb"
+「このRailsアプリをRails Wayの観点から包括評価して」
+
+# Rails + セキュリティ
+/multi-role rails,security
+cat app/controllers/users_controller.rb
+「Rails Security Guideに基づいてこのControllerを評価して」
+
+# Rails + パフォーマンス
+/multi-role rails,performance
+「N+1クエリとRails特有のパフォーマンス問題を分析して」
+
+# Rails専門のサブエージェント分析
+/role rails --agent
+「Railsプロジェクト全体の品質監査を詳細実行して」
+```
+
+#### Rails議論・比較
+
+```bash
+# Rails vs 一般的なアプローチの議論
+/role-debate rails,architect
+「このビジネスロジックをService Objectにするか、Modelに置くか議論して」
+
+# Rails Way vs セキュリティの議論
+/role-debate rails,security
+「Strong Parametersの利便性とセキュリティのバランスについて議論して」
+
+# Rails特化のヘルプ
+/role-help "Rails特有の問題を分析したい"
+→ rails ロール推奨 + 関連する協調パターン提案
+```
 
 #### 自動ロール提案
 
 ```bash
 /smart-review
 → 現在の状況を分析して最適なロールを提案
+
+/smart-review app/models/
+→ Rails Modelから rails ロールを推奨
+
+/smart-review app/controllers/
+→ Rails Controllerから rails + security の組み合わせを推奨
 
 /smart-review src/auth/
 → 認証関連ファイルから security ロールを推奨
@@ -284,6 +407,10 @@ Evidence-First 根本原因分析
 「この API を複数の視点で評価して」
 → セキュリティとパフォーマンスの両面から統合分析
 
+/multi-role rails,qa
+「Rails特有のテスト戦略について分析して」
+→ Rails規約とテストベストプラクティスの統合
+
 /role-debate frontend,security
 「2 段階認証の UX について議論して」
 → ユーザビリティとセキュリティの観点で議論
@@ -292,11 +419,14 @@ Evidence-First 根本原因分析
 #### ロール選択に迷った場合
 
 ```bash
-/role-help "API が遅くてセキュリティも心配"
-→ 適切なアプローチ（multi-role や debate）を提案
+/role-help "Rails API が遅くてセキュリティも心配"
+→ rails + performance + security の multi-role を提案
 
-/role-help compare frontend,mobile
-→ フロントエンドとモバイルロールの違いと使い分け
+/role-help "Rails Controller が肥大化している"
+→ rails ロール + architect の組み合わせを推奨
+
+/role-help compare rails,reviewer
+→ Rails特化レビューと一般的レビューの違いと使い分け
 ```
 
 ## 注意事項
@@ -305,13 +435,16 @@ Evidence-First 根本原因分析
 
 - ロールを切り替えると、Claude の **振る舞い・優先事項・分析手法・報告形式** が専門特化します
 - 各ロールは **Evidence-First アプローチ** で公式ガイドライン・実証済み手法を優先適用
+- **`rails` ロール**: Rails Guides・Rails Security Guide等の公式ドキュメントを根拠とした分析
 - `default` で通常モードに戻ります（ロール特化が解除されます）
 - ロールは現在のセッション内でのみ有効です
 
 ### 効果的な活用方法
 
+- **Rails開発**: `rails` ロール単体、または他ロールとの協調が効果的
 - **単純な問題**: 単一ロールで十分な専門分析
 - **複雑な問題**: multi-role や role-debate で多角的分析が効果的
+- **Rails特有の問題**: `rails` ロール + 関連ロールの組み合わせが最適
 - **迷った時**: smart-review や role-help をご利用ください
 - **継続的改善**: 同じロールでも新たな証拠・手法で分析精度が向上
 
@@ -326,6 +459,10 @@ Evidence-First 根本原因分析
 
 #### 推奨される使用場面
 ```bash
+# Rails: 全体的な品質監査、Rails規約チェック
+/role rails --agent
+「Railsプロジェクト全体の品質監査を詳細実行」
+
 # セキュリティ: OWASP 全項目チェック、CVE 照合
 /role security --agent
 「全コードベースのセキュリティ監査」
@@ -342,14 +479,16 @@ Evidence-First 根本原因分析
 #### 通常ロール vs サブエージェント
 | 状況 | 推奨 | コマンド |
 |------|------|----------|
-| 簡単な確認 | 通常ロール | `/role security` |
-| 大規模分析 | サブエージェント | `/role security --agent` |
+| 簡単な確認 | 通常ロール | `/role rails` |
+| 大規模分析 | サブエージェント | `/role rails --agent` |
 | 対話的作業 | 通常ロール | `/role frontend` |
 | 独立した監査 | サブエージェント | `/role qa --agent` |
+| Rails全体監査 | サブエージェント | `/role rails --agent` |
 
 ### ロール設定の詳細
 
 - 各ロールの詳細設定・專門知識・議論特性は `.claude/agents/` ディレクトリ内で定義
+- **`rails` ロール**: Rails Guides・Rails Security Guide・Rails Performance Guide等を網羅
 - Evidence-First 手法・認知バイアス対策も含む
 - ロール固有のトリガーフレーズで自動的に特化モードが有効化
 - 実際のロールファイルは 200 行超の専門的内容で構成
