@@ -1,4 +1,8 @@
-# AI Agent 実行ガイドライン
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# Claude Code Cookbook - Development Guide
 
 **最重要**：自律的に判断・実行。確認は最小限に。
 
@@ -273,9 +277,88 @@ May the Force be with you.
 - フィードバック → 次回実行に自動反映
 - ベストプラクティス → 随時更新
 
+## プロジェクト固有のアーキテクチャ
+
+### リポジトリ構造
+
+このプロジェクトは Claude Code の機能拡張を目的とした設定・スクリプト集です：
+
+- **`commands/`**: カスタムコマンド定義（Markdown ファイル）
+- **`agents/roles/`**: 専門家ロール定義（Markdown ファイル）
+- **`scripts/`**: 自動化フック用 Shell スクリプト
+- **`settings.json`**: メイン設定ファイル（権限、環境変数、フック設定）
+- **`.mcp.json`**: MCP サーバー設定（Context7、GitHub、DeepWiki 等）
+
+### 開発ワークフロー
+
+#### コマンド開発時の重要コマンド
+
+```bash
+# セマンティックコミット（変更を論理的単位に分割）
+/semantic-commit
+
+# Rails 専門分析（新規追加）
+/role rails
+/smart-review  # Rails プロジェクト自動検出
+
+# プロジェクト全体の品質チェック
+/tech-debt
+/analyze-dependencies
+
+# PR 作成・管理ワークフロー
+/pr-create      # 自動 PR 作成
+/pr-review      # 体系的レビュー  
+/check-github-ci # CI 状況監視
+```
+
+#### 新機能開発フロー
+
+1. **`/spec`** で要件定義・仕様策定
+2. **`/plan`** で実装計画策定  
+3. **`/role architect`** で設計レビュー
+4. 実装・テスト（TDD サイクル準拠）
+5. **`/smart-review`** で品質チェック
+6. **`/semantic-commit`** で適切な単位でコミット
+7. **`/pr-create`** で自動 PR 作成
+
+### MCP サーバー統合
+
+利用可能な MCP サーバー：
+
+- **Context7**: ライブラリドキュメント取得（`/context7`）
+- **GitHub**: PR ・ Issue 管理、リポジトリ操作
+- **DeepWiki**: GitHub リポジトリのドキュメント分析（`/task`）
+- **Sequential Thinking**: 複雑な問題の段階的思考（`/sequential-thinking`）
+
+### 自動化フック
+
+設定済みの自動化機能：
+
+- **安全性チェック**: 危険コマンド実行防止（`deny-check.sh`）
+- **AI コミット検証**: AI 署名付きコミット防止（`check-ai-commit.sh`）
+- **日本語フォーマット**: 日英文字間スペース自動整形（`ja-space-format.sh`）
+- **ドキュメント促進**: 新規ファイル作成時のドキュメント追加促進（`auto-comment.sh`）
+- **通知機能**: タスク完了・確認待ち時の macOS 通知
+
+### Ruby/Rails プロジェクト対応
+
+Rails 専門家ロール（`/role rails`）の活用：
+
+- Rails Way 準拠度チェック
+- Fat Controller/Model 検出
+- N+1 クエリ最適化提案
+- Rails Security Guide 準拠確認
+- YARD ドキュメント生成（`/update-yard-doc`）
+
 ## 制約事項
 
 ### Web 検索の制約
 
 - **WebSearch ツールは使用禁止** — 利用することは禁止です
-- **代替手段**：`gemini --prompt "WebSearch: <検索クエリ>` — Gemini 経由の検索
+- **代替手段**：`/search-gemini` コマンドを使用
+
+### ファイル作成の制約
+
+- 新規 Markdown ファイル作成は最小限に（既存の編集を優先）
+- `commands/` と `agents/roles/` への追加は要確認
+- スクリプトファイル変更時は安全性を十分検証
